@@ -24,12 +24,12 @@ class Creature():
         self.hunger = food_list[self.food_position]
         food_list[self.food_position] = 0
     def sleep(self, creatures_list = creatures):
-        if self.hunger = 0:
+        if self.hunger == 0:
             # Die
             self.alive = False
-        elif self.hunger = 1:
+        elif self.hunger == 1:
             # Survive
-        elif self.hunger = 2:
+        elif self.hunger == 2:
             # Reproduce
             creatures_list.append(new Creature())
                         
