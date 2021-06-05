@@ -6,7 +6,7 @@ A simple Predator-Prey Simulator
 
 __author__ = "Manas Mengle"
 __version__ = "0.0.1"
-__license__ = "MIT"
+__license__ = "GPLv3"
 
 
 def main():
