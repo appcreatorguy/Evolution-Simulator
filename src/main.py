@@ -29,14 +29,15 @@ class Creature():
             self.alive = False
         elif self.hunger == 1:
             # Survive
+            pass
         elif self.hunger == 2:
             # Reproduce
-            creatures_list.append(new Creature())
+            creatures_list.append(Creature())
                         
             
         
 def init_creatures(creatures_list = creatures):
-    creatures_list = [new Creature()] * 12 # Creates 12 empty creatures
+    creatures_list = [Creature()] * 12 # Creates 12 empty creatures
 
 def init_food(food_list = food):
     food_list = [2] * 60 # Resets Food
