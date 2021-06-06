@@ -169,7 +169,7 @@ def main(args):
     print("Running Simulation with:")
     print(args.days, "days.")
     print(args.start_creatures, "starting creatures.")
-    print(args.food_amount, "avalible food locations.")
+    print(args.food_amount, "available food locations.")
 
     # ? first come, first serve or sharing switch
     main_game_loop(
