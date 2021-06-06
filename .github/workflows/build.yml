@@ -9,14 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout Repository
+        uses: actions/checkout@v1
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Create Release
         id: create_release 
         uses: ncipollo/release-action@v1.8.6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
-          name: Release ${{ github.ref }}
+          name: Release ${{ steps.get_version.outputs.VERSION }}
           prerelease: true
       - name: Output Release URL File
         run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
@@ -36,13 +40,13 @@ jobs:
         include:
           - os: ubuntu-latest
             TARGET: linux
-            CMD_BUILD: pyinstaller -F -n evolution-simulator-${{ github.ref }} src/main.py
-            OUT_FILE_NAME: evolution-simulator-${{ github.ref }}
+            CMD_BUILD: pyinstaller -F -n evolution-simulator src/main.py
+            OUT_FILE_NAME: evolution-simulator
             ASSET_MIME: application/zip
           - os: windows-latest
             TARGET: windows
-            CMD_BUILD: pyinstaller -F -c -n evolution-simulator-${{ github.ref }} src/main.py
-            OUT_FILE_NAME: evolution-simulator-${{ github.ref }}.exe
+            CMD_BUILD: pyinstaller -F -c -n evolution-simulator src/main.py
+            OUT_FILE_NAME: evolution-simulator.exe
             ASSET_MIME: application/vnd.microsoft.portable-executable
     steps:
       - name: Checkout Repository
