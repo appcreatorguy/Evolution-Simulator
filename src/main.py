@@ -204,9 +204,8 @@ if __name__ == "__main__":
         "--pause",
         action="count",
         default=0,
-        help="pause (-p = no pauses, except between days, -pp = no pauses, etc)")
-
-    
+        help="pause (-p = no pauses, except between days, -pp = no pauses, etc)",
+    )
 
     # Specify output of "--version"
     parser.add_argument(
