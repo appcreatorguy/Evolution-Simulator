@@ -4,11 +4,12 @@ Evolution Simulator
 A simple Predator-Prey Simulator
 """
 
-import random
-
 __author__ = "Manas Mengle"
 __version__ = "0.0.1"
 __license__ = "GPLv3"
+
+
+import random
 
 creatures = [] * 12
 food = [] * 60  # * length of 60, int food in each
