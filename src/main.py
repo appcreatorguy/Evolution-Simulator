@@ -11,10 +11,16 @@ __license__ = "GPLv3"
 
 import random
 import time
+from enum import Enum, auto
 
 creatures = []
 new_creatures = [] # * Creatures to be added after current ones have gone to sleep
 foods = []  # * length of 60, int food in each
+
+class State(Enum):
+    SURVIVE = auto()
+    REPRODUCE = auto()
+    DIE = auto()
 
 
 class Creature:
@@ -32,18 +38,19 @@ class Creature:
 
     def eat_food(self):
         self.hunger = foods[self.food_index]
-        return self.hunger
 
     def sleep(self):
         if self.hunger == 0:
             # Die
             self.alive = False
+            return State.DIE
         elif self.hunger == 1:
             # Survive
-            pass
+            return State.SURVIVE
         elif self.hunger == 2:
             # Reproduce
             new_creatures.append(Creature())
+            return State.REPRODUCE
 
 
 def reset_creatures():
@@ -80,7 +87,15 @@ def eat_all_food():
 def sleep_all():
     for creature in creatures:
         if creature.alive:
-            creature.sleep()
+            state = creature.sleep()
+            if state == State.SURVIVE:
+                print("Creature",creatures.index(creature)+1,"survived.")            
+            elif state == State.REPRODUCE:
+                print("Creature",creatures.index(creature)+1,"reproduced.")
+            elif state == State.DIE:
+                print("Creature",creatures.index(creature)+1,"died.")
+
+
     creatures.extend(new_creatures)
     new_creatures.clear()
 
@@ -101,26 +116,27 @@ def print_creatures():
 def main_game_loop(days):
     reset_creatures()
     for day in range(days):
+        time.sleep(10)
         print("\n\n DAY",day+1,"\n\n")
         reset_food()
         print_food()
-        time.sleep(1)
-        print_creatures()
         time.sleep(2)
+        print_creatures()
+        time.sleep(4)
         pick_all_food()
         print("Food Picked")
         eat_all_food()
-        time.sleep(2)
+        time.sleep(4)
         print("Food Eaten")
         print_creatures()
-        time.sleep(2)
+        time.sleep(4)
         print_food()
-        time.sleep(2)
-        print("Creatures Reproduced, survived or died")
+        time.sleep(4)
+        print("\nCreatures Reproduced, survived or died")
         sleep_all()
+        time.sleep(4)
         reset_hunger()
         print_creatures()
-        time.sleep(5)
 
 def main():
     print("hello world")
