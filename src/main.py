@@ -5,7 +5,7 @@ A simple Predator-Prey Simulator
 """
 
 __author__ = "Manas Mengle"
-__version__ = "0.0.1"
+__version__ = "0.1.1"
 __license__ = "GPLv3"
 
 
@@ -121,29 +121,29 @@ def print_creatures():
             time.sleep(0.2)
 
 
-def main_game_loop(days, creature_amount, food_amount):
+def main_game_loop(days, creature_amount, food_amount, *args):
     reset_creatures(creature_amount)
     for day in range(days):
         print("\n\n DAY", day + 1, "\n\n")
         reset_food(food_amount)
         print_food()
-        time.sleep(2)
+        None if args[0] > 0 else time.sleep(2)
         print_creatures()
-        time.sleep(5)
+        None if args[0] > 0 else time.sleep(5)
         pick_all_food()
         print("Food Picked")
         eat_all_food()
-        time.sleep(4)
+        None if args[0] > 0 else time.sleep(4)
         print("Food Eaten")
         print_creatures()
-        time.sleep(5)
+        None if args[0] > 0 else time.sleep(5)
         print_food()
-        time.sleep(4)
+        None if args[0] > 0 else time.sleep(4)
         print("\nCreatures Reproduced, survived or died")
         sleep_all()
-        time.sleep(4)
+        None if args[0] > 0 else time.sleep(4)
         reset_hunger()
-        time.sleep(10)
+        None if args[0] > 1 else time.sleep(10)
     # TODO: Add Final Score
     # TODO: Add Matplotlib
 
@@ -164,16 +164,15 @@ def main(args):
         "As the creatures go to sleep at the end of the day, depending on how much they have eaten, they can either die, survive, or reproduce."
     )
     print("The cycle then repeats for the following days.")
-    time.sleep(10)
+    None if args.pause > 1 else time.sleep(10)
 
     print("Running Simulation with:")
     print(args.days, "days.")
     print(args.start_creatures, "starting creatures.")
     print(args.food_amount, "available food locations.")
 
-    # ? first come, first serve or sharing switch
     main_game_loop(
-        int(args.days), int(args.start_creatures), int(args.food_amount)
+        int(args.days), int(args.start_creatures), int(args.food_amount), args.pause
     )  # ? Reducing food amount?
 
 
@@ -196,7 +195,16 @@ if __name__ == "__main__":
         "--share",
         action="store_true",
         default=False,
-        help="whether the creatures should share the food evenly if two of them end up at the same food position",
+        help="whether the creatures should share the food evenly if two of them end up at the same food position, CURRENTLY NOT WORKING",
+    )
+
+    # Optional pause counter (eg. -p, -pp, -ppp, etc.)
+    parser.add_argument(
+        "-p",
+        "--pause",
+        action="count",
+        default=0,
+        help="pause (-p = no pauses, except between days, -pp = no pauses, etc)",
     )
 
     # Specify output of "--version"
