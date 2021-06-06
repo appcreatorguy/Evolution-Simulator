@@ -40,11 +40,11 @@ class Creature:
             creatures_list.append(Creature())
 
 
-def init_creatures(creatures_list=creatures):
+def reset_creatures(creatures_list=creatures):
     creatures_list = [Creature()] * 12  # Creates 12 empty creatures
 
 
-def init_food(food_list=food):
+def reset_food(food_list=food):
     food_list = [2] * 60  # Resets Food
 
 
@@ -52,7 +52,7 @@ def pick_all_food(creatures_list=creatures):
     for creature in creatures_list:
         if creature.alive:
             creature.pick_food()
-    init_food()
+    reset_food()
 
 
 def eat_all_food(food_list=food, creatures_list=creatures):
@@ -60,8 +60,10 @@ def eat_all_food(food_list=food, creatures_list=creatures):
     for creature in creatures_list:
         if creature.alive:
             creature.eat_food()
-
-
+def sleep_all(creatures_list=creatures):
+    for creature in creatures_list:
+        if creature.alive:
+            creature.sleep()
 def main():
     print("hello world")
 
