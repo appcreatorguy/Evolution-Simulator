@@ -48,7 +48,6 @@ def reset_creatures(creatures_list=creatures):
 def reset_food(food_list=food):
     food_list = [2] * 60  # Resets Food
 
-
 def pick_all_food(creatures_list=creatures):
     for creature in creatures_list:
         if creature.alive:
