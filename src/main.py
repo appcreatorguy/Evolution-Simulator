@@ -60,10 +60,14 @@ def eat_all_food(food_list=food, creatures_list=creatures):
     for creature in creatures_list:
         if creature.alive:
             creature.eat_food()
+
+
 def sleep_all(creatures_list=creatures):
     for creature in creatures_list:
         if creature.alive:
             creature.sleep()
+
+
 def main():
     print("hello world")
 
