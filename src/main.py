@@ -12,6 +12,7 @@ __license__ = "GPLv3"
 import random
 import time
 from enum import Enum, auto
+import argparse
 
 creatures = []
 new_creatures = []  # * Creatures to be added after current ones have gone to sleep
@@ -123,7 +124,6 @@ def print_creatures():
 def main_game_loop(days, creature_amount, food_amount):
     reset_creatures(creature_amount)
     for day in range(days):
-        time.sleep(10)
         print("\n\n DAY", day + 1, "\n\n")
         reset_food(food_amount)
         print_food()
@@ -143,9 +143,13 @@ def main_game_loop(days, creature_amount, food_amount):
         sleep_all()
         time.sleep(4)
         reset_hunger()
+        time.sleep(10)
+    # TODO: Add Final Score
+    # TODO: Add Matplotlib
 
 
-def main():
+def main(args):
+    """Main entry point of the app"""
     print("EVOLUTION SIMULATOR")
     print(
         "This game simulates the evolution of creature count and explores ideas of overpopulation, and equilibrium."
@@ -155,17 +159,52 @@ def main():
     )
     print(
         "Each day, a set amount of food spawns at certain locations. The creatures can then pick a food location. The creatures then eat the food."
-    )  # ? Add commandline args here
+    )
     print(
         "As the creatures go to sleep at the end of the day, depending on how much they have eaten, they can either die, survive, or reproduce."
     )
     print("The cycle then repeats for the following days.")
     time.sleep(10)
-    # TODO: Add Command line args
+
+    print("Running Simulation with:")
+    print(args.days, "days.")
+    print(args.start_creatures, "starting creatures.")
+    print(args.food_amount, "avalible food locations.")
+
     # ? first come, first serve or sharing switch
-    main_game_loop(2, 12, 60)  # ? Reducing food amount?
+    main_game_loop(
+        int(args.days), int(args.start_creatures), int(args.food_amount)
+    )  # ? Reducing food amount?
 
 
 if __name__ == "__main__":
     """This is executed when run from the command line"""
-    main()
+    parser = argparse.ArgumentParser()
+
+    # Required positional argument
+    parser.add_argument("days", help="number of days to simulate")
+
+    # Required positional argument
+    parser.add_argument("start_creatures", help="number of starting creatures")
+
+    # Required positional argument
+    parser.add_argument("food_amount", help="number of food positions")
+
+    # Optional argument flag which defaults to False
+    parser.add_argument(
+        "-s",
+        "--share",
+        action="store_true",
+        default=False,
+        help="whether the creatures should share the food evenly if two of them end up at the same food position",
+    )
+
+    # Specify output of "--version"
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="%(prog)s (version {version})".format(version=__version__),
+    )
+
+    args = parser.parse_args()
+    main(args)
