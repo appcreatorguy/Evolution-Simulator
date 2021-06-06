@@ -124,25 +124,31 @@ def main_game_loop(days, creature_amount, food_amount):
         print_food()
         time.sleep(2)
         print_creatures()
-        time.sleep(4)
+        time.sleep(5)
         pick_all_food()
         print("Food Picked")
         eat_all_food()
         time.sleep(4)
         print("Food Eaten")
         print_creatures()
-        time.sleep(4)
+        time.sleep(5)
         print_food()
         time.sleep(4)
         print("\nCreatures Reproduced, survived or died")
         sleep_all()
         time.sleep(4)
         reset_hunger()
-        print_creatures()
 
 def main():
     print("EVOLUTION SIMULATOR")
+    print("This game simulates the evolution of creature count and explores ideas of overpopulation, and equilibrium.")
+    print("The game starts off with a set amount of creatures, who are trying to find food.")
+    print("Each day, a set amount of food spawns at certain locations. The creatures can then pick a food location. The creatures then eat the food.") # ? Add commandline args here
+    print("As the creatures go to sleep at the end of the day, depending on how much they have eaten, they can either die, survive, or reproduce.")
+    print("The cycle then repeats for the following days.")
+    time.sleep(10)
     # TODO: Add Command line args
+    # ? first come, first serve or sharing switch
     main_game_loop(2, 12, 60) # ? Reducing food amount?
 
 
