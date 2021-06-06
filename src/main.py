@@ -15,7 +15,7 @@ from enum import Enum, auto
 
 creatures = []
 new_creatures = [] # * Creatures to be added after current ones have gone to sleep
-foods = []  # * length of 60, int food in each
+foods = []  # * Food 'map'. Each item holds int food amount
 
 class State(Enum):
     SURVIVE = auto()
@@ -53,16 +53,16 @@ class Creature:
             return State.REPRODUCE
 
 
-def reset_creatures():
+def reset_creatures(amount = 12):
     global creatures
-    for i in range(12):
+    for i in range(amount):
         creatures.append(Creature())  # Creates 12 empty creatures
         
 
 
-def reset_food():
+def reset_food(amount = 60):
     global foods
-    foods = [2] * 60  # Resets Food
+    foods = [2] * amount  # Resets Food
 
 def reset_hunger():
     for creature in creatures:
@@ -106,6 +106,7 @@ def print_food():
     print('Food: ', end='')
     for food in foods:
         print(food, end='')
+        time.sleep(0.1)
 def print_creatures():
     print('\n\n')
     print("Number of creatures:",len(creatures))
@@ -113,12 +114,13 @@ def print_creatures():
     for creature in creatures:
         if creature.alive:
             print(creatures.index(creature)+1,creature.hunger)
-def main_game_loop(days):
-    reset_creatures()
+            time.sleep(0.2)
+def main_game_loop(days, creature_amount, food_amount):
+    reset_creatures(creature_amount)
     for day in range(days):
         time.sleep(10)
         print("\n\n DAY",day+1,"\n\n")
-        reset_food()
+        reset_food(food_amount)
         print_food()
         time.sleep(2)
         print_creatures()
@@ -139,8 +141,9 @@ def main_game_loop(days):
         print_creatures()
 
 def main():
-    print("hello world")
-    main_game_loop(2)
+    print("EVOLUTION SIMULATOR")
+    # TODO: Add Command line args
+    main_game_loop(2, 12, 60) # ? Reducing food amount?
 
 
 if __name__ == "__main__":
