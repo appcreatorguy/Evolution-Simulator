@@ -147,8 +147,9 @@ def main_game_loop(days, creature_amount, food_amount):
     # TODO: Add Final Score
     # TODO: Add Matplotlib
 
+
 def main(args):
-    """ Main entry point of the app """
+    """Main entry point of the app"""
     print("EVOLUTION SIMULATOR")
     print(
         "This game simulates the evolution of creature count and explores ideas of overpopulation, and equilibrium."
@@ -171,31 +172,39 @@ def main(args):
     print(args.food_amount, "avalible food locations.")
 
     # ? first come, first serve or sharing switch
-    main_game_loop(int(args.days), int(args.start_creatures), int(args.food_amount))  # ? Reducing food amount?
+    main_game_loop(
+        int(args.days), int(args.start_creatures), int(args.food_amount)
+    )  # ? Reducing food amount?
 
 
 if __name__ == "__main__":
     """This is executed when run from the command line"""
     parser = argparse.ArgumentParser()
-    
+
     # Required positional argument
     parser.add_argument("days", help="number of days to simulate")
-    
+
     # Required positional argument
     parser.add_argument("start_creatures", help="number of starting creatures")
-    
+
     # Required positional argument
     parser.add_argument("food_amount", help="number of food positions")
 
     # Optional argument flag which defaults to False
-    parser.add_argument("-s", "--share", action="store_true", default=False, help="whether the creatures should share the food evenly if two of them end up at the same food position")
+    parser.add_argument(
+        "-s",
+        "--share",
+        action="store_true",
+        default=False,
+        help="whether the creatures should share the food evenly if two of them end up at the same food position",
+    )
 
-    
     # Specify output of "--version"
     parser.add_argument(
         "--version",
         action="version",
-        version="%(prog)s (version {version})".format(version=__version__))
+        version="%(prog)s (version {version})".format(version=__version__),
+    )
 
     args = parser.parse_args()
     main(args)
