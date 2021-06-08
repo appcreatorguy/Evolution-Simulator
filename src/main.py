@@ -5,7 +5,7 @@ A simple Predator-Prey Simulator
 """
 
 __author__ = "Manas Mengle"
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __license__ = "GPLv3"
 
 
@@ -113,7 +113,8 @@ def print_food():
 
 def print_creatures():
     print("\n\n")
-    print("Number of creatures:", len(creatures))
+    alive_creatures = [creature for creature in creatures if creature.alive]
+    print("Number of creatures:", len(alive_creatures))
     print("\nCreature | Hunger")
     for creature in creatures:
         if creature.alive:
