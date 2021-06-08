@@ -13,6 +13,8 @@ import random
 import time
 from enum import Enum, auto
 import argparse
+import matplotlib.pyplot as plt
+import numpy as np
 
 creatures = []
 new_creatures = []  # * Creatures to be added after current ones have gone to sleep
