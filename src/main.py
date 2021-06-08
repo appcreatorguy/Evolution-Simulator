@@ -5,7 +5,7 @@ A simple Predator-Prey Simulator
 """
 
 __author__ = "Manas Mengle"
-__version__ = "0.1.2"
+__version__ = "0.2.0"
 __license__ = "GPLv3"
 
 
@@ -17,6 +17,7 @@ import argparse
 creatures = []
 new_creatures = []  # * Creatures to be added after current ones have gone to sleep
 foods = []  # * Food 'map'. Each item holds int food amount
+score_table = {} # * Should be written to in the format 'ROUND INDEX' : CREATURE COUNT
 
 
 class State(Enum):
@@ -145,10 +146,15 @@ def main_game_loop(days, creature_amount, food_amount, *args):
         None if args[0] > 0 else time.sleep(4)
         reset_hunger()
         None if args[0] > 1 else time.sleep(10)
-    # TODO: Add Final Score
+        score_writer(len(creatures), day)
+    print('FINAL SCORE')
+    score_keys = list(score_table.keys())
+    score_vals = list(score_table.values())
+    for score in score_table.values():
+        print(score_keys[score_vals.index(score)] + 1, ":", score) # Print score fancily
     # TODO: Add Matplotlib
-
-
+def score_writer(score, round):
+    score_table[round] = score
 def main(args):
     """Main entry point of the app"""
     print("EVOLUTION SIMULATOR")
