@@ -19,7 +19,6 @@ new_creatures = []  # * Creatures to be added after current ones have gone to sl
 foods = []  # * Food 'map'. Each item holds int food amount
 
 
-
 class State(Enum):
     SURVIVE = auto()
     REPRODUCE = auto()
