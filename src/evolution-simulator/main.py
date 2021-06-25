@@ -15,29 +15,29 @@ import argparse
 
 def main(args):
     """Main entry point of the app"""
-    print("EVOLUTION SIMULATOR")
-    print(
-        "This game simulates the evolution of creature count and explores ideas of overpopulation, and equilibrium."
-    )
-    print(
-        "The game starts off with a set amount of creatures, who are trying to find food."
-    )
-    print(
-        "Each day, a set amount of food spawns at certain locations. The creatures can then pick a food location. The creatures then eat the food."
-    )
-    print(
-        "As the creatures go to sleep at the end of the day, depending on how much they have eaten, they can either die, survive, or reproduce."
-    )
-    print("The cycle then repeats for the following days.")
-    None if args.pause > 1 else time.sleep(10)
+    if not args.noverbosity:
+        print("EVOLUTION SIMULATOR")
+        print(
+            "This game simulates the evolution of creature count and explores ideas of overpopulation, and equilibrium."
+        )
+        print(
+            "The game starts off with a set amount of creatures, who are trying to find food."
+        )
+        print(
+            "Each day, a set amount of food spawns at certain locations. The creatures can then pick a food location. The creatures then eat the food."
+        )
+        print(
+            "As the creatures go to sleep at the end of the day, depending on how much they have eaten, they can either die, survive, or reproduce."
+        )
+        print("The cycle then repeats for the following days.")
+        None if args.pause > 1 else time.sleep(10)
 
-    print("\n\n","Running Simulation with:")
-    print(args.days, "days.")
-    print(args.start_creatures, "starting creatures.")
-    print(args.food_amount, "available food locations.")
-
+        print("\n\n","Running Simulation with:")
+        print(args.days, "days.")
+        print(args.start_creatures, "starting creatures.")
+        print(args.food_amount, "available food locations.")
     simulator.main_game_loop(
-        int(args.days), int(args.start_creatures), int(args.food_amount), args.pause
+        int(args.days), int(args.start_creatures), int(args.food_amount), args.noverbosity, args.pause
     )  # ? Reducing food amount?
 
 
@@ -61,6 +61,15 @@ if __name__ == "__main__":
         action="store_true",
         default=False,
         help="whether the creatures should share the food evenly if two of them end up at the same food position, CURRENTLY NOT WORKING",
+    )
+
+    # Optional argument flag which defaults to False
+    parser.add_argument(
+        "-nv",
+        "--noverbosity",
+        action="store_true",
+        default=False,
+        help="Run Simulation instantly, without interactivity, and output a graph of the results.",
     )
 
     # Optional pause counter (eg. -p, -pp, -ppp, etc.)
