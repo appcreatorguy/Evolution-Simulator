@@ -135,7 +135,7 @@ def main_game_loop(days, creature_amount, food_amount, no_verbosity, *args):
     score_counter(len([creature for creature in creatures if creature.alive]), 0)
     if not no_verbosity:
         for day in range(days):
-            print("\n\n DAY", day + 1, "\n\n")
+            print(Fore.CYAN + "\n\n DAY", day + 1, "\n\n")
             reset_food(food_amount)
             print_food()
             None if args[0] > 0 else time.sleep(2)
@@ -170,7 +170,7 @@ def main_game_loop(days, creature_amount, food_amount, no_verbosity, *args):
 
 
 def score_writer():
-    print("FINAL SCORE")
+    print(Fore.BLUE + "FINAL SCORE")
     score_keys = list(score_table.keys())
     score_vals = list(score_table.values())
     for score in score_table.values():
