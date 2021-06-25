@@ -44,7 +44,7 @@ class Creature:
         )  # len - 1 due to last index of list being len - 1, not len
 
     def eat_food(self):
-        self.hunger = foods[self.food_index]
+        self.hunger = foods[self.food_index].nutrition
 
     def sleep(self):
         if self.hunger == 0:
@@ -58,7 +58,14 @@ class Creature:
             # Reproduce
             new_creatures.append(Creature())
             return State.REPRODUCE
+class Food:
+    def __init__(self, food_amount):
+        # super(Food, self).__init__(food_amount) # dunno if this is needed?
+        self.nutrition = food_amount
 
+def consumption_handler(creature, food):
+    creature.eat_food()
+    food.nutrition -= creature.hunger
 
 def reset_creatures(amount=12):
     global creatures
@@ -68,8 +75,8 @@ def reset_creatures(amount=12):
 
 def reset_food(amount=60):
     global foods
-    foods = [2] * amount  # Resets Food
-
+    for i in range(amount):
+        foods.append(Food(2)) #Reset Food
 
 def reset_hunger():
     for creature in creatures:
@@ -87,8 +94,7 @@ def eat_all_food():
     # TODO: Add double detection
     for creature in creatures:
         if creature.alive:
-            creature.eat_food()
-            foods[creature.food_index] -= creature.hunger
+            consumption_handler(creature,foods[creature.food_index])
 
 
 def sleep_all():
@@ -110,7 +116,7 @@ def print_food():
     print("\n\n")
     print("Food: ", end="")
     for food in foods:
-        print(food, end="")
+        print(food.nutrition, end="")
         time.sleep(0.1)
 
 
@@ -128,24 +134,25 @@ def print_creatures():
 def main_game_loop(days, creature_amount, food_amount, *args):
     reset_creatures(creature_amount)
     for day in range(days):
+        skip = True if args[0] > 0 else False
         print("\n\n DAY", day + 1, "\n\n")
         reset_food(food_amount)
         print_food()
-        None if args[0] > 0 else time.sleep(2)
+        None if skip else time.sleep(2)
         print_creatures()
-        None if args[0] > 0 else time.sleep(5)
+        None if skip else time.sleep(5)
         pick_all_food()
         print("Food Picked")
         eat_all_food()
-        None if args[0] > 0 else time.sleep(4)
+        None if skip else time.sleep(4)
         print("Food Eaten")
         print_creatures()
-        None if args[0] > 0 else time.sleep(5)
+        None if skip else time.sleep(5)
         print_food()
-        None if args[0] > 0 else time.sleep(4)
+        None if skip else time.sleep(4)
         print("\nCreatures Reproduced, survived or died")
         sleep_all()
-        None if args[0] > 0 else time.sleep(4)
+        None if skip else time.sleep(4)
         reset_hunger()
         None if args[0] > 1 else time.sleep(10)
         score_writer(len(creatures), day)
