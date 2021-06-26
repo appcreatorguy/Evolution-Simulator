@@ -98,11 +98,11 @@ def sleep_all(no_verbosity=False):
             if creature.alive:
                 state = creature.sleep()
                 if state == State.SURVIVE:
-                    print("Creature", creatures.index(creature) + 1, "survived.")
+                    print(Fore.YELLOW + "Creature", creatures.index(creature) + 1, "survived.")
                 elif state == State.REPRODUCE:
-                    print("Creature", creatures.index(creature) + 1, "reproduced.")
+                    print(Fore.GREEN + "Creature", creatures.index(creature) + 1, "reproduced.")
                 elif state == State.DIE:
-                    print("Creature", creatures.index(creature) + 1, "died.")
+                    print(Fore.RED + "Creature", creatures.index(creature) + 1, "died.")
     else:
         for creature in creatures:
             if creature.alive:
@@ -113,8 +113,9 @@ def sleep_all(no_verbosity=False):
 
 def print_food():
     print("\n\n")
-    print("Food: ", end="")
+    print(Fore.LIGHTMAGENTA_EX + "Food: ", end="")
     for food in foods:
+        print(Fore.LIGHTGREEN_EX,end='') if food.nutrition > 0 else print(Fore.LIGHTBLACK_EX,end='')
         print(food.nutrition, end="")
         time.sleep(0.1)
 
@@ -122,20 +123,21 @@ def print_food():
 def print_creatures():
     print("\n\n")
     alive_creatures = [creature for creature in creatures if creature.alive]
-    print("Number of creatures:", len(alive_creatures))
-    print("\nCreature | Hunger")
+    print(Fore.LIGHTMAGENTA_EX + "Number of creatures:", len(alive_creatures))
+    print(Fore.LIGHTBLUE_EX + "\nCreature | Hunger")
     for creature in creatures:
         if creature.alive:
+            print(Fore.GREEN, end='') if creature.hunger > 1 else print(Fore.LIGHTBLACK_EX,end='')
             print(creatures.index(creature) + 1, creature.hunger)
             time.sleep(0.2)
 
 
 def main_game_loop(days, creature_amount, food_amount, no_verbosity, *args):
     reset_creatures(creature_amount)
-    score_counter(len([creature for creature in creatures if creature.alive]), 0)
+    score_counter(len([creature for creature in creatures if creature.alive]), 0) # Day 0
     if not no_verbosity:
         for day in range(days):
-            print(Fore.CYAN + "\n\n DAY", day + 1, "\n\n")
+            print(Fore.BLUE + "\n\n DAY", day + 1, "\n\n")
             reset_food(food_amount)
             print_food()
             None if args[0] > 0 else time.sleep(2)
@@ -150,7 +152,7 @@ def main_game_loop(days, creature_amount, food_amount, no_verbosity, *args):
             None if args[0] > 0 else time.sleep(5)
             print_food()
             None if args[0] > 0 else time.sleep(4)
-            print("\nCreatures Reproduced, survived or died")
+            print(Fore.YELLOW + "\nCreatures Reproduced, survived or died")
             sleep_all()
             None if args[0] > 0 else time.sleep(4)
             reset_hunger()
