@@ -5,7 +5,7 @@ A simple Predator-Prey Simulator
 """
 
 __author__ = "Manas Mengle"
-__version__ = "0.3.1-dev0"
+__version__ = "0.3.1"
 __license__ = "GPLv3"
 
 import simulator
