@@ -3,6 +3,8 @@ import time
 from enum import Enum, auto
 import plotter
 from colorama import init, Fore
+import json_helper
+from datetime import datetime
 
 creatures = []
 new_creatures = []  # * Creatures to be added after current ones have gone to sleep
@@ -145,7 +147,7 @@ def print_creatures():
             time.sleep(0.2)
 
 
-def main_game_loop(days, creature_amount, food_amount, no_verbosity, *args):
+def main_game_loop(days, creature_amount, food_amount, no_verbosity, save_json, *args):
     reset_creatures(creature_amount)
     score_counter(
         len([creature for creature in creatures if creature.alive]), 0
@@ -183,14 +185,13 @@ def main_game_loop(days, creature_amount, food_amount, no_verbosity, *args):
             eat_all_food()
             sleep_all(True)
             reset_hunger()
-            score_counter(
-                len([creature for creature in creatures if creature.alive]), day + 1
-            )
-    score_writer() if not no_verbosity else None
+            score_counter(len([creature for creature in creatures if creature.alive]), day+1)
+    score_print() if not no_verbosity else None
+    score_writer() if save_json else None
     plot_score(days)
 
 
-def score_writer():
+def score_print():
     print(Fore.BLUE + "FINAL SCORE")
     score_keys = list(score_table.keys())
     score_vals = list(score_table.values())
@@ -214,3 +215,9 @@ def plot_score(days):
         "Population",
         "Creature-Food Simulation run for " + str(days) + " day(s).",
     )
+
+def score_writer(filename=None):
+    filename = "data/" + datetime.now().strftime("%d-%m-%y %H.%M.%S") + " Simulation Data" + ".json"
+    print(Fore.MAGENTA + "Writing data to " + filename + Fore.RESET)
+    json_helper.save(score_table, filename)
+

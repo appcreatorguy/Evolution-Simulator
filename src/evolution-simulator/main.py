@@ -37,11 +37,7 @@ def main(args):
         print(args.start_creatures, "starting creatures.")
         print(args.food_amount, "available food locations.")
     simulator.main_game_loop(
-        int(args.days),
-        int(args.start_creatures),
-        int(args.food_amount),
-        args.noverbosity,
-        args.pause,
+        int(args.days), int(args.start_creatures), int(args.food_amount), args.noverbosity, args.savejson, args.pause
     )  # ? Reducing food amount?
 
 
@@ -65,6 +61,15 @@ if __name__ == "__main__":
         action="store_true",
         default=False,
         help="whether the creatures should share the food evenly if two of them end up at the same food position, CURRENTLY NOT WORKING",
+    )
+
+    # Optional argument flag which defaults to True
+    parser.add_argument(
+        "-sj",
+        "--savejson",
+        action="store_false",
+        default=True,
+        help="Simulator automatically saves simulation data to JSON file. Use flag to stop this.",
     )
 
     # Optional argument flag which defaults to False
