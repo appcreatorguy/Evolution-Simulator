@@ -9,7 +9,8 @@ new_creatures = []  # * Creatures to be added after current ones have gone to sl
 foods = []  # * Food 'map'. Each item holds int food amount
 score_table = {}  # * Should be written to in the format 'ROUND INDEX' : CREATURE COUNT
 
-init() # Initialize Colorama for coloured text in terminal
+init()  # Initialize Colorama for coloured text in terminal
+
 
 class State(Enum):
     SURVIVE = auto()
@@ -98,9 +99,17 @@ def sleep_all(no_verbosity=False):
             if creature.alive:
                 state = creature.sleep()
                 if state == State.SURVIVE:
-                    print(Fore.YELLOW + "Creature", creatures.index(creature) + 1, "survived.")
+                    print(
+                        Fore.YELLOW + "Creature",
+                        creatures.index(creature) + 1,
+                        "survived.",
+                    )
                 elif state == State.REPRODUCE:
-                    print(Fore.GREEN + "Creature", creatures.index(creature) + 1, "reproduced.")
+                    print(
+                        Fore.GREEN + "Creature",
+                        creatures.index(creature) + 1,
+                        "reproduced.",
+                    )
                 elif state == State.DIE:
                     print(Fore.RED + "Creature", creatures.index(creature) + 1, "died.")
     else:
@@ -115,7 +124,9 @@ def print_food():
     print("\n\n")
     print(Fore.LIGHTMAGENTA_EX + "Food: ", end="")
     for food in foods:
-        print(Fore.LIGHTGREEN_EX,end='') if food.nutrition > 0 else print(Fore.LIGHTBLACK_EX,end='')
+        print(Fore.LIGHTGREEN_EX, end="") if food.nutrition > 0 else print(
+            Fore.LIGHTBLACK_EX, end=""
+        )
         print(food.nutrition, end="")
         time.sleep(0.1)
 
@@ -127,14 +138,18 @@ def print_creatures():
     print(Fore.LIGHTBLUE_EX + "\nCreature | Hunger")
     for creature in creatures:
         if creature.alive:
-            print(Fore.GREEN, end='') if creature.hunger > 1 else print(Fore.LIGHTBLACK_EX,end='')
+            print(Fore.GREEN, end="") if creature.hunger > 1 else print(
+                Fore.LIGHTBLACK_EX, end=""
+            )
             print(creatures.index(creature) + 1, creature.hunger)
             time.sleep(0.2)
 
 
 def main_game_loop(days, creature_amount, food_amount, no_verbosity, *args):
     reset_creatures(creature_amount)
-    score_counter(len([creature for creature in creatures if creature.alive]), 0) # Day 0
+    score_counter(
+        len([creature for creature in creatures if creature.alive]), 0
+    )  # Day 0
     if not no_verbosity:
         for day in range(days):
             print(Fore.BLUE + "\n\n DAY", day + 1, "\n\n")
@@ -157,7 +172,9 @@ def main_game_loop(days, creature_amount, food_amount, no_verbosity, *args):
             None if args[0] > 0 else time.sleep(4)
             reset_hunger()
             None if args[0] > 1 else time.sleep(10)
-            score_counter(len([creature for creature in creatures if creature.alive]), day+1) # Only select alive Creatures
+            score_counter(
+                len([creature for creature in creatures if creature.alive]), day + 1
+            )  # Only select alive Creatures
     else:
         print(Fore.GREEN + "Simulating...")
         for day in range(days):
@@ -166,7 +183,9 @@ def main_game_loop(days, creature_amount, food_amount, no_verbosity, *args):
             eat_all_food()
             sleep_all(True)
             reset_hunger()
-            score_counter(len([creature for creature in creatures if creature.alive]), day+1)
+            score_counter(
+                len([creature for creature in creatures if creature.alive]), day + 1
+            )
     score_writer() if not no_verbosity else None
     plot_score(days)
 
