@@ -20,7 +20,9 @@ def open_file(filename):
 
 
 def save(content, filename):
-    os.makedirs(os.path.dirname(filename), exist_ok=True) # Create intermediate directories if necessary.
+    os.makedirs(
+        os.path.dirname(filename), exist_ok=True
+    )  # Create intermediate directories if necessary.
     f = open(filename, "a")
     f.write(convert_to_json(content) + "\n")
     f.close
@@ -33,16 +35,18 @@ def array_write(filename, data):
         filename: The name of the file to write to.
         data: The data to write to the file.
     """
-    os.makedirs(os.path.dirname(filename), exist_ok=True) # Create intermediate directories if necessary.
+    os.makedirs(
+        os.path.dirname(filename), exist_ok=True
+    )  # Create intermediate directories if necessary.
     if not os.path.isfile(filename):  # Create empty JSON array if file doesn't exist.
         f = open(filename, "x")
         f.write("[]")
         f.close()
     print(Fore.MAGENTA + "Writing Data to File...")
     if os.path.getsize(filename) == 2:  # If this is the first object in the array
-        data_to_write = (convert_to_json(data) + "]")
+        data_to_write = convert_to_json(data) + "]"
     else:
-        data_to_write = ("," + convert_to_json(data) + "]")
+        data_to_write = "," + convert_to_json(data) + "]"
     f = open(filename, "a")
     f.seek(0)
     f.seek(os.path.getsize(filename) - 1)

@@ -185,7 +185,9 @@ def main_game_loop(days, creature_amount, food_amount, no_verbosity, save_json, 
             eat_all_food()
             sleep_all(True)
             reset_hunger()
-            score_counter(len([creature for creature in creatures if creature.alive]), day+1)
+            score_counter(
+                len([creature for creature in creatures if creature.alive]), day + 1
+            )
     score_print() if not no_verbosity else None
     score_writer() if save_json else None
     plot_score(days)
@@ -216,8 +218,13 @@ def plot_score(days):
         "Creature-Food Simulation run for " + str(days) + " day(s).",
     )
 
+
 def score_writer(filename=None):
-    filename = "data/" + datetime.now().strftime("%d-%m-%y %H.%M.%S") + " Simulation Data" + ".json"
+    filename = (
+        "data/"
+        + datetime.now().strftime("%d-%m-%y %H.%M.%S")
+        + " Simulation Data"
+        + ".json"
+    )
     print(Fore.MAGENTA + "Writing data to " + filename + Fore.RESET)
     json_helper.save(score_table, filename)
-

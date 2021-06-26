@@ -37,7 +37,12 @@ def main(args):
         print(args.start_creatures, "starting creatures.")
         print(args.food_amount, "available food locations.")
     simulator.main_game_loop(
-        int(args.days), int(args.start_creatures), int(args.food_amount), args.noverbosity, args.savejson, args.pause
+        int(args.days),
+        int(args.start_creatures),
+        int(args.food_amount),
+        args.noverbosity,
+        args.savejson,
+        args.pause,
     )  # ? Reducing food amount?
 
 
