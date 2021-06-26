@@ -164,3 +164,6 @@ pip-selfcheck.json
 .vscode/launch.json
 
 .history
+
+# Test Data
+data/*

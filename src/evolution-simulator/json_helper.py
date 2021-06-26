@@ -20,8 +20,9 @@ def open_file(filename):
 
 
 def save(content, filename):
-    f = open(filename, "w")
-    f.write(pretty(content) + "\n")
+    os.makedirs(os.path.dirname(filename), exist_ok=True) # Create intermediate directories if necessary.
+    f = open(filename, "a")
+    f.write(convert_to_json(content) + "\n")
     f.close
 
 
@@ -32,6 +33,7 @@ def array_write(filename, data):
         filename: The name of the file to write to.
         data: The data to write to the file.
     """
+    os.makedirs(os.path.dirname(filename), exist_ok=True) # Create intermediate directories if necessary.
     if not os.path.isfile(filename):  # Create empty JSON array if file doesn't exist.
         f = open(filename, "x")
         f.write("[]")
