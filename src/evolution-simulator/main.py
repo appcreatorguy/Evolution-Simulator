@@ -32,12 +32,16 @@ def main(args):
         print("The cycle then repeats for the following days.")
         None if args.pause > 1 else time.sleep(10)
 
-        print("\n\n","Running Simulation with:")
+        print("\n\n", "Running Simulation with:")
         print(args.days, "days.")
         print(args.start_creatures, "starting creatures.")
         print(args.food_amount, "available food locations.")
     simulator.main_game_loop(
-        int(args.days), int(args.start_creatures), int(args.food_amount), args.noverbosity, args.pause
+        int(args.days),
+        int(args.start_creatures),
+        int(args.food_amount),
+        args.noverbosity,
+        args.pause,
     )  # ? Reducing food amount?
 
 
