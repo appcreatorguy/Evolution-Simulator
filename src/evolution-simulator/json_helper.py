@@ -6,17 +6,18 @@ def pretty(data):
 
 
 def convert_to_json(data):
-    return json.pretty(data)
+    data = json.dumps(data)
+    return pretty(data)
 
 
-def open(filename):
+def open_file(filename):
     f = open(filename, "r")
     content = f.read()
     f.close()
     return convert_to_json(content)
 
 
-def save(content, filename):
-    f = open(filename, "w")
-    f.write(pretty(content) + "\n")
-    f.close
+def save_to_file(content, filename):
+    f = open(filename, "a")
+    f.write("," + "\n" + pretty(content))
+    f.close()
