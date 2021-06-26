@@ -40,12 +40,12 @@ jobs:
         include:
           - os: ubuntu-latest
             TARGET: linux
-            CMD_BUILD: pyinstaller -F -n evolution-simulator src/evolution-simulator/main.py
+            CMD_BUILD: pyinstaller -F -n evolution-simulator --paths=src/evolution-simulator src/evolution-simulator/main.py
             OUT_FILE_NAME: evolution-simulator
             ASSET_MIME: application/zip
           - os: windows-latest
             TARGET: windows
-            CMD_BUILD: pyinstaller -F -c -n evolution-simulator src/evolution-simulator/main.py
+            CMD_BUILD: pyinstaller -F -c -n evolution-simulator --paths=src/evolution-simulator src/evolution-simulator/main.py
             OUT_FILE_NAME: evolution-simulator.exe
             ASSET_MIME: application/vnd.microsoft.portable-executable
     steps:
