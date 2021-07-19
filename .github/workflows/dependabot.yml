@@ -1,0 +1,13 @@
+# Basic pip dependency auto-update
+
+version: 2
+updates:
+  - directory: "/"
+    open-pull-requests-limit: 5
+    package-ecosystem: pip
+    rebase-strategy: auto
+    schedule:
+      interval: "daily"
+    target-branch: "develop"
+    labels:
+      - "pip dependencies"
