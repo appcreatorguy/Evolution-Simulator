@@ -1,15 +1,19 @@
+import math
 import random
 import time
-from enum import Enum, auto
-import plotter
-from colorama import init, Fore
-import json_helper
 from datetime import datetime
+from enum import Enum, auto
+
+from colorama import Fore, init
+
+import json_helper
+import plotter
 
 creatures = []
 new_creatures = []  # * Creatures to be added after current ones have gone to sleep
 foods = []  # * Food 'map'. Each item holds int food amount
 score_table = {}  # * Should be written to in the format 'ROUND INDEX' : CREATURE COUNT
+double_mode = ""  # * Double Mode as according to Enum:DoubleMode
 
 init()  # Initialize Colorama for coloured text in terminal
 
@@ -20,23 +24,32 @@ class State(Enum):
     DIE = auto()
 
 
+class DoubleMode(Enum):
+    SHARE = auto()
+    GREEDY = auto()
+
+
 class Creature:
     def __init__(self):
         super(Creature, self).__init__()
         self.hunger = 0
         self.food_index = None  # * Index of food list
         self.alive = True
+        self.shared = False  # * Whether this creature has shared food
 
     def reset_hunger(self):
         self.hunger = 0
+
+    def reset_shared(self):
+        self.shared = False
 
     def pick_food(self):
         self.food_index = random.randint(
             1, len(foods) - 1
         )  # len - 1 due to last index of list being len - 1, not len
 
-    def eat_food(self):
-        self.hunger = foods[self.food_index].nutrition
+    def eat_food(self, amount):
+        self.hunger = amount
 
     def sleep(self):
         if self.hunger == 0:
@@ -59,7 +72,23 @@ class Food:
 
 
 def consumption_handler(creature, food):
-    creature.eat_food()
+    global double_mode
+    creature_count = 0
+    for otherCreature in creatures:
+        if (
+            otherCreature.food_index == creature.food_index
+            and double_mode == DoubleMode.GREEDY
+        ):
+            creature_count = 1
+        elif (
+            otherCreature.food_index == creature.food_index
+            and double_mode == DoubleMode.SHARE
+            and not otherCreature.shared
+        ):
+            creature_count += 1
+    food_amount = foods[creature.food_index].nutrition / creature_count
+    creature.eat_food(food_amount)
+    creature.shared = True
     food.nutrition -= creature.hunger
 
 
@@ -90,9 +119,13 @@ def pick_all_food():
 
 def eat_all_food():
     # TODO: Add double detection
+    global creature_count
+    creature_count = 0
     for creature in creatures:
         if creature.alive:
             consumption_handler(creature, foods[creature.food_index])
+    for creature in creatures:
+        creature.reset_shared()
 
 
 def sleep_all(no_verbosity=False):
@@ -129,7 +162,7 @@ def print_food():
         print(Fore.LIGHTGREEN_EX, end="") if food.nutrition > 0 else print(
             Fore.LIGHTBLACK_EX, end=""
         )
-        print(food.nutrition, end="")
+        print(math.floor(food.nutrition), end="")
         time.sleep(0.1)
 
 
@@ -143,11 +176,15 @@ def print_creatures():
             print(Fore.GREEN, end="") if creature.hunger > 1 else print(
                 Fore.LIGHTBLACK_EX, end=""
             )
-            print(creatures.index(creature) + 1, creature.hunger)
+            print(creatures.index(creature) + 1, math.floor(creature.hunger))
             time.sleep(0.2)
 
 
 def main_game_loop(days, creature_amount, food_amount, no_verbosity, save_json, *args):
+    # * Parse Double Mode
+    global double_mode
+    double_mode = DoubleMode[args[1].upper()]
+
     reset_creatures(creature_amount)
     score_counter(
         len([creature for creature in creatures if creature.alive]), 0
