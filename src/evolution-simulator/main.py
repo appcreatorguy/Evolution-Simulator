@@ -5,12 +5,13 @@ A simple Predator-Prey Simulator
 """
 
 __author__ = "Manas Mengle"
-__version__ = "0.3.2"
+__version__ = "0.4.0-dev0"
 __license__ = "GPLv3"
 
-import simulator
-import time
 import argparse
+import time
+
+import simulator
 
 
 def main(args):
@@ -41,7 +42,9 @@ def main(args):
         int(args.start_creatures),
         int(args.food_amount),
         args.noverbosity,
+        args.savejson,
         args.pause,
+        args.double,
     )  # ? Reducing food amount?
 
 
@@ -58,13 +61,13 @@ if __name__ == "__main__":
     # Required positional argument
     parser.add_argument("food_amount", help="number of food positions")
 
-    # Optional argument flag which defaults to False
+    # Optional argument flag which defaults to True
     parser.add_argument(
-        "-s",
-        "--share",
-        action="store_true",
-        default=False,
-        help="whether the creatures should share the food evenly if two of them end up at the same food position, CURRENTLY NOT WORKING",
+        "-sj",
+        "--savejson",
+        action="store_false",
+        default=True,
+        help="simulator automatically saves simulation data to JSON file. Use flag to stop this.",
     )
 
     # Optional argument flag which defaults to False
@@ -73,7 +76,7 @@ if __name__ == "__main__":
         "--noverbosity",
         action="store_true",
         default=False,
-        help="Run Simulation instantly, without interactivity, and output a graph of the results.",
+        help="run Simulation instantly, without interactivity, and output a graph of the results.",
     )
 
     # Optional pause counter (eg. -p, -pp, -ppp, etc.)
@@ -82,7 +85,17 @@ if __name__ == "__main__":
         "--pause",
         action="count",
         default=0,
-        help="pause (-p = no pauses, except between days, -pp = no pauses, etc)",
+        help="pause Mode (-p = no pauses, except between days, -pp = no pauses, etc)",
+    )
+
+    parser.add_argument(
+        "-d",
+        "--double",
+        action="store",
+        default="greedy",
+        help="""double Mode:
+    share = Share the food equally,
+    greedy = First come, first serve""",
     )
 
     # Specify output of "--version"
