@@ -4,10 +4,9 @@ import time
 from datetime import datetime
 from enum import Enum, auto
 
-from colorama import Fore, init
-
 import json_helper
 import plotter
+from colorama import Fore, init
 
 creatures = []
 new_creatures = []  # * Creatures to be added after current ones have gone to sleep
